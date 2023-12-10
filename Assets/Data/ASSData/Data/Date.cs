@@ -7,11 +7,19 @@ using UnityEngine.UI;
 
 public class Date : ScriptableObject
 {
-    private int year, month, day;
+    private int year, month, day,lastDate;
     private string weekDay;
     private bool dateError=true;
 
     public string DateString => $"{year}年{month}月{day}日 星期{weekDay}";
+    public int LastDate
+    {
+        get => lastDate;
+        set
+        {
+            lastDate = value;
+        }
+    }
     public string WeekDay
     {
         get => weekDay;

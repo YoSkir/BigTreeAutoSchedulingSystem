@@ -38,7 +38,7 @@ public class UIPanel : VisualElement
         templateContainer = Resources.Load<VisualTreeAsset>(path: "ShiftContainer").Instantiate();
         hierarchy.Add(templateContainer);
         userData = shiftTimeData;
-        templateContainer.Q<Label>(name: "ShiftLabel").text = "test";
+        templateContainer.Q<Label>(name: "ShiftLabel").text = shiftTimeData.ShiftTimeText;
     }
     public UIPanel(int line) : this()
     {

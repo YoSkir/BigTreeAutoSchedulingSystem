@@ -13,10 +13,24 @@ public class StaffController : MonoBehaviour
         staff.StaffLevel = level.Length<3?level:"";
         return staff;
     }
-    public List<Date> AddDaysOff(List<Date> currentDaysOff,Date newDaysOff)
+    public void AddDaysOff(StaffData staff,Date newDaysOff)
     {
-        currentDaysOff.Add(newDaysOff);
-        return currentDaysOff;
+        staff.DaysOff.Add(newDaysOff);
+    }
+    public StaffData[] SetStaffList(string[] nameList, string[] numberList, string[] levelList)
+    {
+        StaffData[] staffDatas = new StaffData[nameList.Length];
+        for(int i = 0; i < staffDatas.Length; i++)
+        {
+            staffDatas[i] = SetStaffInfo(nameList[i], numberList[i], levelList[i]);
+            staffDatas[i].Colum = i;
+            staffDatas[i].ContinuousDayOff = 0;
+            staffDatas[i].ContinuousWorkDays = 0;
+            staffDatas[i].LastDayCloseShift = false;
+            staffDatas[i].TotalDaysOff = 0;
+            staffDatas[i].TotalWorkHours = 0;
+        }
+        return staffDatas;
     }
 }
 

@@ -96,11 +96,56 @@ public class DateController : MonoBehaviour
             date.Month = month;
             date.Day = day;
             date.WeekDay = GetWeekDay(year, month, day);
+            date.LastDate = DaysOfMonth(date);
         }
         return date;
     }
-
+    public bool ContainsDate(List<Date> dates,Date date)
+    {
+        foreach(Date d in dates)
+        {
+            if (SameDate(date, d)) return true;
+        }
+        return false;
+    }
+    
     //inside
+    private bool SameDate(Date date1,Date date2)
+    {
+        if (date1.Year == date2.Year && date1.Month == date2.Month && date1.Day == date2.Day)
+        {
+            return true;
+        }
+        return false;
+    }
+    private int DaysOfMonth(Date date)
+    {
+        int days;
+        if (date.Month == 2)
+        {
+            days = IsLeapYear(date.Year) ? 29 : 28;
+        }
+        else
+        {
+            days = bigMonth.Contains(date.Month) ? 31 : 30;
+        }
+        return days;
+    }
+
+    public int DaysOfMonth(int year,int month)
+    {
+        int days;
+        if (month == 2)
+        {
+            days = IsLeapYear(year) ? 29 : 28;
+        }
+        else
+        {
+            days = bigMonth.Contains(month) ? 31 : 30;
+        }
+        return days;
+    }
+
     private Date AddOneDay(Date inputDate)
     {
         int year = inputDate.Year, month = inputDate.Month, day = inputDate.Day;
@@ -223,6 +268,6 @@ public class DateController : MonoBehaviour
         }
         return false;
     }
-
+    
 
 }

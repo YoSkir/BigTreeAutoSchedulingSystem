@@ -1,31 +1,51 @@
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ShiftController : MonoBehaviour
-{    
-    //在主邏輯確保排班時間
-    public StoreData SetMonthlyShiftDate(Date startDate,Date endDate)
+{
+    public void SetDaysOff()
     {
-        StoreData storeData = ScriptableObject.CreateInstance<StoreData>();
-        storeData.ShiftDuration = setShiftDuration(startDate, endDate);
-        List<Date> rangeDates = CentralProcessor.Instance.DateController.GetRangeDate(startDate, endDate);
-        List<ShiftData> tempMonthlyShift = new List<ShiftData>();
-        for (int i = 0; i < storeData.ShiftDuration; i++)
+        DateController dateController = CentralProcessor.Instance.DateController;
+        List<ShiftData> shiftDatas = CentralProcessor.ASSData.MonthlyShiftData;
+        for(int j=0;j<shiftDatas.Count;j++)
         {
-            ShiftData shiftData = ScriptableObject.CreateInstance<ShiftData>();
-            shiftData.Date = rangeDates[i];
-            shiftData.Line = i;
-            //
-            shiftData.ShiftTimes = new ShiftTimeData[5];
-            //
-            tempMonthlyShift.Add(shiftData);
+            for(int i = 0; i < shiftDatas[j].ShiftTimes.Length; i++)
+            {
+                if (dateController.ContainsDate(CentralProcessor.ASSData.StoreStaffData[i].DaysOff,shiftDatas[j].Date))
+                {
+                    shiftDatas[j].ShiftTimes[i].ShiftTimeText = SetShiftText(ShiftTimeData.ShiftStatusEnum.指休);
+                }
+                else
+                {
+                    shiftDatas[j].ShiftTimes[i].ShiftTimeText = "";
+                }
+            }
         }
-        storeData.MonthlyShiftData = tempMonthlyShift;
-        return storeData;
     }
-    private int setShiftDuration(Date startDate,Date endDate)
+    public string SetShiftText(ShiftTimeData shiftTimeData)
     {
-        return CentralProcessor.Instance.DateController.GetDaysCount(startDate, endDate);
+        string result="";
+        switch (shiftTimeData.StartTime)
+        {
+
+        }
+        shiftTimeData.ShiftTimeText = result;
+        return result;
+    }
+    public string SetShiftText(ShiftTimeData.ShiftStatusEnum shiftStatusEnum)
+    {
+        switch (shiftStatusEnum)
+        {
+            case ShiftTimeData.ShiftStatusEnum.特休:
+                return "特休";
+            case ShiftTimeData.ShiftStatusEnum.指休:
+                return "指休";
+            case ShiftTimeData.ShiftStatusEnum.排休:
+                return "排休";
+            default:
+                return "";
+        }
     }
 }
+

@@ -8,8 +8,10 @@ public class ShiftData: ScriptableObject
 {
     private Date date;
     private string calender = "";
-    private ShiftTimeData[] shiftTimes;
+    private ShiftTimeData[] shiftTimes; //每格代表每個員工今天的班表
+    private StaffData[][] WorkHour;  //[工作小時][上班者]
     private int line;
+
     public Date Date
     {
         get => date;

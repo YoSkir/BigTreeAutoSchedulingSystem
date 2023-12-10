@@ -10,11 +10,11 @@ public class UIController : MonoBehaviour
     {
         rootVisualElement = GetComponentInParent<UIDocument>().rootVisualElement;
     }
-    public void BuildDatePanel(StoreData storeData)
+    public void BuildDatePanel(ASSData assData)
     {
         VisualElement datesContainer = rootVisualElement.Q("DatesContainer");
         datesContainer.Clear();
-        foreach (ShiftData shiftData in storeData.MonthlyShiftData)
+        foreach (ShiftData shiftData in assData.MonthlyShiftData)
         {
             bool even=false;
             if (shiftData.Line % 2 == 0)
@@ -24,29 +24,35 @@ public class UIController : MonoBehaviour
             datesContainer.Add(new UIPanel(shiftData,even));
         }
     }
-    public void BuildStaffPanel(StoreData storeData)
+    public void BuildStaffPanel(ASSData assData)
     {
         VisualElement staffContainer = rootVisualElement.Q("StaffsContainer");
         staffContainer.Clear();
-        foreach(StaffData staffData in storeData.StoreStaffData)
+        foreach(StaffData staffData in assData.StoreStaffData)
         {
             staffContainer.Add(new UIPanel(staffData));
         }
     }
-    public void BuildShiftPanel(StoreData storeData)
+    public void BuildShiftsPanel(ASSData assData)
     {
         VisualElement shiftsContainer = rootVisualElement.Q("MainShiftsContainer");
         shiftsContainer.Clear();
-        for (int i = 0; i < storeData.ShiftDuration; i++)
+        for (int i = 0; i < assData.ShiftDuration; i++)
         {
-            VisualElement shiftContainer = new UIPanel(i);
-            shiftContainer.Add(new UIPanel(storeData.MonthlyShiftData[i].ShiftTimes[1]));
-            /*foreach (ShiftTimeData shiftTimeData in storeData.MonthlyShiftData[i].ShiftTimes)
-            {
-                shiftContainer.Add(new UIPanel(shiftTimeData));
-            }*/
-            shiftsContainer.Add(shiftContainer);
-
+            shiftsContainer.Add(new UIPanel(i));
         }
+    }
+    public void BuildShiftPanel(ASSData assData)
+    {
+        VisualElement shiftContainer;
+        for(int i = 0; i < assData.ShiftDuration; i++)
+        {
+            shiftContainer = rootVisualElement.Query("ShiftsContainer").AtIndex(i);
+            for (int j = 0; j < assData.StoreStaffData.Length; j++)
+            {
+                shiftContainer.Add(new UIPanel(assData.MonthlyShiftData[i].ShiftTimes[j]));
+            }
+        }
+
     }
 }

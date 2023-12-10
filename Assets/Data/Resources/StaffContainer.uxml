@@ -1,10 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="StaffContainer" style="flex-grow: 1; flex-basis: 45px; background-color: rgb(243, 243, 104); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-bottom-width: 0; flex-direction: column; border-right-width: 1px; width: auto;">
+    <ui:VisualElement name="StaffContainer" style="flex-grow: 1; flex-basis: 65px; background-color: rgb(243, 243, 104); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-bottom-width: 0; flex-direction: column; border-right-width: 1px; width: auto;">
         <ui:VisualElement name="StaffLevelContainer" style="flex-grow: 1; flex-basis: 25%;">
             <ui:Label tabindex="-1" text="店長" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StaffLevelLabel" />
         </ui:VisualElement>
         <ui:VisualElement name="StaffNumberContainer" style="flex-grow: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px; border-bottom-width: 1px; flex-basis: 25%; flex-direction: row;">
-            <ui:Label tabindex="-1" text="00000" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StaffNumberLabel" style="flex-grow: 1; font-size: 9px; flex-basis: 45px;" />
+            <ui:Label tabindex="-1" text="00000" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StaffNumberLabel" style="flex-grow: 1; font-size: 9px; flex-basis: 65px;" />
         </ui:VisualElement>
         <ui:VisualElement name="StaffNameContainer" style="flex-grow: 0; flex-basis: 50%;">
             <ui:Label tabindex="-1" text="吳玟頤" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StaffNameLabel" />
