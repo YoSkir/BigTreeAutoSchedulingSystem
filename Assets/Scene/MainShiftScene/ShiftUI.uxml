@@ -1,0 +1,63 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="StaffContainer" src="project://database/Assets/Data/Resources/StaffContainer.uxml?fileID=9197481963319205126&amp;guid=c355e4b3e7cab4a3e98c635cf109d250&amp;type=3#StaffContainer" />
+    <ui:Template name="DateContainer" src="project://database/Assets/Data/Resources/DateContainer.uxml?fileID=9197481963319205126&amp;guid=bd40f222ac54541afaa14bfaaa8812e8&amp;type=3#DateContainer" />
+    <ui:Template name="ShiftContainer" src="project://database/Assets/Data/Resources/ShiftContainer.uxml?fileID=9197481963319205126&amp;guid=ea03abfed162d4027b7ccfcb3bfbe580&amp;type=3#ShiftContainer" />
+    <Style src="project://database/Assets/InitialFiles/Label.uss?fileID=7433441132597879392&amp;guid=517d8d0eaa48b4400872e9ddfe7f91b1&amp;type=3#Label" />
+    <ui:VisualElement name="ShiftUIContainer" style="flex-grow: 1; background-color: rgb(255, 255, 255);">
+        <ui:VisualElement name="InformationContainer" style="flex-grow: 0; flex-basis: 3%; background-color: rgb(243, 243, 104); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; flex-direction: row;">
+            <ui:VisualElement name="DateContainer" style="flex-grow: 0; flex-basis: 20%;">
+                <ui:Label tabindex="-1" text="2023年5/6~11/23" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DateLabel" style="flex-grow: 1; -unity-text-align: middle-center; font-size: 8px; position: relative;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="StoreContainer" style="flex-grow: 0; border-right-width: 1px; border-left-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); flex-basis: 70%; border-top-width: 0; border-bottom-width: 0;">
+                <ui:Label tabindex="-1" text="大樹連鎖藥局 左營大路店" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StoreLabel" />
+            </ui:VisualElement>
+            <ui:VisualElement name="MenuBottonContainer" style="flex-grow: 1; flex-direction: row;">
+                <ui:Button text="選單" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MenuButton" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-basis: auto; background-color: rgb(248, 79, 39); -unity-font-style: bold; flex-grow: 1;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="MainContainer" style="flex-grow: 1; flex-basis: 87%; border-left-color: rgb(0, 0, 0); border-top-width: 0; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); flex-direction: column;">
+            <ui:VisualElement name="TitleContainer" style="flex-grow: 0; flex-basis: 59px; flex-direction: row; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px;">
+                <ui:VisualElement name="CrossContainer" style="flex-grow: 0; flex-basis: 65px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-bottom-width: 0; background-color: rgb(243, 243, 104); flex-direction: row; border-right-width: 2px;">
+                    <ui:VisualElement name="InfoTitleContainer" style="flex-grow: 1;">
+                        <ui:VisualElement name="LevelContainer" style="flex-grow: 1;">
+                            <ui:Label tabindex="-1" text="職級" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LevelTitleLabel" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="NumberContainer" style="flex-grow: 1; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px; border-bottom-width: 1px;">
+                            <ui:Label tabindex="-1" text="編號" parse-escape-sequences="true" display-tooltip-when-elided="true" name="NumberTitleLabel" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="NameContainer" style="flex-grow: 0; flex-basis: 50%;">
+                            <ui:Label tabindex="-1" text="姓名" parse-escape-sequences="true" display-tooltip-when-elided="true" name="NameTitleLabel" style="font-size: 9px; flex-grow: 1;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="StaffsContainer" style="flex-grow: 1; flex-direction: row;">
+                    <ui:Instance template="StaffContainer" name="StaffContainer" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="ShiftTitleContainer" style="flex-grow: 0; flex-basis: 10px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; flex-direction: row;">
+                <ui:VisualElement name="DatesTitleContainer" style="flex-grow: 0; flex-basis: 65px; background-color: rgb(243, 243, 104); border-left-color: rgb(0, 0, 0); border-bottom-width: 0; border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); flex-direction: row; border-right-width: 2px;">
+                    <ui:VisualElement name="CalenderTitleContainer" style="flex-grow: 0; flex-basis: 35px;">
+                        <ui:Label tabindex="-1" text="行事曆" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CalenderTitleLabel" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DateTitleContainer" style="flex-grow: 1; flex-basis: 30%; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 0; border-left-width: 1px;">
+                        <ui:Label tabindex="-1" text="日期" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DateTitleLabel" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="blank" style="flex-grow: 1; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-left-width: 0;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="DateShiftContainer" style="flex-grow: 1; flex-direction: row;">
+                <ui:VisualElement name="DatesContainer" style="flex-grow: 0; flex-basis: 65px; background-color: rgb(243, 243, 104); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px;">
+                    <ui:Instance template="DateContainer" name="DateContainer" />
+                </ui:VisualElement>
+                <ui:VisualElement name="MainShiftsContainer" style="flex-grow: 1; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-left-width: 0; flex-direction: column;">
+                    <ui:VisualElement name="ShiftsContainer" style="flex-basis: 12px; flex-direction: row; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px;">
+                        <ui:Instance template="ShiftContainer" name="ShiftContainer" style="background-color: rgba(94, 183, 85, 0.52);" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="PopUpContainer" style="flex-grow: 1; position: absolute; height: 309px; width: 475px; top: 87px; left: 96px; display: none;">
+        <ui:VisualElement name="TimeSettingPopUp" style="flex-grow: 1; position: absolute; height: 146px; width: 451px; top: 75px; left: 8px; background-color: rgb(255, 226, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; display: flex;" />
+    </ui:VisualElement>
+</ui:UXML>

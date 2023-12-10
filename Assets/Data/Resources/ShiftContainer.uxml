@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="ShiftContainer" style="flex-grow: 0; flex-basis: 12px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-bottom-width: 0; border-right-width: 1px; flex-direction: column;">
+        <ui:Label tabindex="-1" text="133-220休0.5" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ShiftLabel" style="font-size: 7px;" />
+    </ui:VisualElement>
+</ui:UXML>

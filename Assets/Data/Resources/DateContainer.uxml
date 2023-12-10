@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="DateContainer" style="flex-grow: 0; flex-basis: 12px; background-color: rgb(243, 243, 104); border-left-color: rgb(0, 0, 0); border-bottom-width: 1px; border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); flex-direction: row;">
+        <ui:VisualElement name="CalenderContainer" style="flex-grow: 0; flex-basis: 35px; background-color: rgb(255, 255, 255);">
+            <ui:Label tabindex="-1" text="你好" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CalenderLabel" />
+        </ui:VisualElement>
+        <ui:VisualElement name="DateContainer" style="flex-grow: 1; flex-basis: 15%; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 0; border-left-width: 1px;">
+            <ui:Label tabindex="-1" text="23" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DateLabel" style="flex-basis: auto;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="WeekDayContainer" style="flex-grow: 1; flex-basis: 15%; border-right-width: 0; border-right-color: rgb(0, 0, 0); border-left-width: 1px; border-left-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
+            <ui:Label tabindex="-1" text="一" parse-escape-sequences="true" display-tooltip-when-elided="true" name="WeekDayLabel" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
