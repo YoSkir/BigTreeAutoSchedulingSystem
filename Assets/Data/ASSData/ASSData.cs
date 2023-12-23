@@ -7,11 +7,36 @@ using UnityEngine;
 public class ASSData : ScriptableObject
 {
     Date startDate, endDate;
+    int openHour, closeHour,timeDuration; //1=0.5hour
     bool firstOpen=true; //
     List<ShiftData> monthlyShiftData;
     StaffData[] storeStaffData;
     int shiftDuration;
 
+    public int TimeDuration
+    {
+        get => timeDuration;
+        set
+        {
+            timeDuration = value;
+        }
+    }
+    public int OpenHour
+    {
+        get => openHour;
+        set
+        {
+            openHour=value;
+        }
+    }
+    public int CloseHour
+    {
+        get => closeHour;
+        set
+        {
+            closeHour = value;
+        }
+    }
     public List<ShiftData> MonthlyShiftData
     {
         get => monthlyShiftData;

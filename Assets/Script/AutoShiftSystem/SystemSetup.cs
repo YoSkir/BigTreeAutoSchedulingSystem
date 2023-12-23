@@ -33,7 +33,28 @@ public class SystemSetup : MonoBehaviour
         }
         CentralProcessor.ASSData.FirstOpen = false;
         CentralProcessor.Instance.ShiftController.SetDaysOff();
-        
+        //設定店營業時間
+        CentralProcessor.Instance.ShiftController.SetShiftTime(18, 44);
+        CentralProcessor.Instance.TimeShow(18);
+        CentralProcessor.Instance.TimeShow(44);
+        int[] staffCount = { 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 2, 2 };
+        CentralProcessor.Instance.ShiftController.SetShiftStaffCount(staffCount);
+        CentralProcessor.Instance.ShiftController.SetShiftStaffCount(ShiftController.WeekDay.六, 40,43, 3);
+        CentralProcessor.Instance.ShiftController.SetShiftStaffCount(ShiftController.WeekDay.日, 40,43, 3);
+        foreach (StaffData[] staffDatas in CentralProcessor.ASSData.MonthlyShiftData[0].WorkHour)
+        {
+            int empty = 0;
+            staffDatas[1] = CentralProcessor.ASSData.StoreStaffData[1];
+            foreach(StaffData staffData in staffDatas)
+            {
+                if (staffData == null)
+                {
+                    empty++;
+                }
+            }
+            Debug.Log(staffDatas.Length + "人 空"+empty);
+        }
+
     }
     private void SetStaff()
     {
@@ -42,7 +63,7 @@ public class SystemSetup : MonoBehaviour
     }
     private void SetDaysOff(StaffData staff,Date date)
     {
-
+        staff.DaysOff.Add(date);
     }
     private void SetDate(int[] date)
     {

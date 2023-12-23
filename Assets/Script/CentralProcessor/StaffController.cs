@@ -10,6 +10,7 @@ public class StaffController : MonoBehaviour
         StaffData staff = ScriptableObject.CreateInstance<StaffData>();
         staff.StaffName = name.Length<5?name:"";
         staff.StaffNumber = number.Length==5?number:"";
+        staff.IsManager = !level.Equals("店員");
         staff.StaffLevel = level.Length<3?level:"";
         return staff;
     }

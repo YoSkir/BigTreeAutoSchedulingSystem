@@ -32,4 +32,12 @@ public class CentralProcessor : MonoBehaviour
     public StaffController StaffController => staffController;
     public ShiftController ShiftController => shiftController;
     public SystemSetup SystemSetup => systemSetup;
+    public void TimeShow(int time)
+    {
+        string timeText = "";
+        timeText+=time<24?"上午":"下午";
+        timeText += time / 2 + "點";
+        timeText += time % 2 == 0 ? "" : "半";
+        Debug.Log(timeText);
+    }   
 }
