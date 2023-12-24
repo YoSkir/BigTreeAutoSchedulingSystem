@@ -41,20 +41,6 @@ public class SystemSetup : MonoBehaviour
         CentralProcessor.Instance.ShiftController.SetShiftStaffCount(staffCount);
         CentralProcessor.Instance.ShiftController.SetShiftStaffCount(ShiftController.WeekDay.六, 40,43, 3);
         CentralProcessor.Instance.ShiftController.SetShiftStaffCount(ShiftController.WeekDay.日, 40,43, 3);
-        foreach (StaffData[] staffDatas in CentralProcessor.ASSData.MonthlyShiftData[0].WorkHour) //testing if adding staff into system working
-        {
-            int empty = 0;
-            staffDatas[1] = CentralProcessor.ASSData.StoreStaffData[1];
-            foreach(StaffData staffData in staffDatas)
-            {
-                if (staffData == null)
-                {
-                    empty++;
-                }
-            }
-            Debug.Log(staffDatas.Length + "人 空"+empty);
-        }
-
     }
     private void SetStaff()
     {

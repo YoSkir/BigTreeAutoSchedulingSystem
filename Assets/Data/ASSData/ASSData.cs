@@ -11,8 +11,13 @@ public class ASSData : ScriptableObject
     bool firstOpen=true; //
     List<ShiftData> monthlyShiftData;
     StaffData[] storeStaffData;
+    StaffData[] staffPriorityRate;
     int shiftDuration;
 
+    public StaffData[] StaffPriorityRate
+    {
+        get=>staffPriorityRate; set=>staffPriorityRate = value;
+    }
     public int TimeDuration
     {
         get => timeDuration;

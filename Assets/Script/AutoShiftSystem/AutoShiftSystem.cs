@@ -16,7 +16,7 @@ public class AutoShiftSystem : MonoBehaviour
      * 開班到十點，晚八到關班固定兩人
      * 六日晚八到關班至少三人
      * 上班時間9 10 13.5 15.5
-     * 班別6 8 10 12
+     * 班別6.5 8.5 11 13(含休息
      * 休息時間 10後1小時
        9   10  11  12  13  14  15  16  17  18  19  20  21 
     //{2,2,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,2,2,2,2}
@@ -56,12 +56,29 @@ public class AutoShiftSystem : MonoBehaviour
     {
         for(int time = 0; time < shiftData.WorkHour.Length; time++) //Scheduling 0.5 hour by 0.5 hour
         {
+            int requireStaffsCounts = shiftData.WorkHour[time].Length;
             int staffsOnWork = CurrentStaffsOnWork(shiftData.WorkHour[time]);
-            while (!ManagerOnWork(shiftData.WorkHour[time]) ||staffsOnWork < shiftData.WorkHour[time].Length)//Check if the staffs amount on shift match the request.
+            while (!ManagerOnWork(shiftData.WorkHour[time]) ||staffsOnWork < requireStaffsCounts)//Check if the staffs amount on shift match the request.
             {
+                //比較優先度時 假如優先者已在上班(continuousWorkHours>0) 則延長班別
                 if (!ManagerOnWork(shiftData.WorkHour[time]))
                 {
-                    shiftData.WorkHour[time][]
+                    if (staffsOnWork < requireStaffsCounts)
+                    {
+                        //add manager
+                    }
+                    else
+                    {
+                        //off a staff
+                        //add manager
+                    }
+                }
+                else
+                {
+                    if (staffsOnWork < requireStaffsCounts)
+                    {
+                        //add a staff
+                    }
                 }
             }
         }
@@ -69,16 +86,40 @@ public class AutoShiftSystem : MonoBehaviour
     }
     //每半小時檢查 :這時間沒有主管
     //true: 如果需求人員已滿= 讓最高優先下班者下班(需另做下班判斷) : addFirstPrio(主管)
-    //false:如果需求人員已滿= null : addFirstPrio(一般) 
-    private StaffData AddFirstPriorityStaff(StaffData[] staffDatas,bool pickManager)
-    {       
-        return staffDatas[0];
+    //false:如果需求人員已滿= null : addFirstPrio() 
+    private StaffData AddFirstPriorityStaff(StaffData[] storeStaffs ,bool pickManager)
+    {
+        List<StaffData> staffPriorityRate = new List<StaffData>();
+        if (pickManager)
+        {
+            for(int colum=0; colum < storeStaffs.Length; colum++)
+            {
+                if (storeStaffs[colum].IsManager)
+                {
+
+                }
+            }
+        }
+        else
+        {
+
+        }
+        return storeStaffs[0]; ///
+    }
+    //也許先從6小時開始排比較好?
+    //記得排進來要更新判斷數值
+    //如果雙主管,確保第二個主管會到關班
+    //如果沒有主管可以上班 增加一個員工
+    private List<StaffData> GetPriorityRate(StaffData[] storeStaff)
+    {
+        return new List<StaffData>();///
     }
     private StaffData[] SetExtraStaffOffShift(StaffData[] currentTimeStaffs)
     {
-
+        return currentTimeStaffs;///
     }
-    //比較當前上班中員工
+    //用6 8 10 12小時來判斷?用總時數判斷?用連續上班天判斷?
+    //記得更改判斷數值
     private int CurrentStaffsOnWork(StaffData[] workingStaffs)
     {
         int staffCount=0;

@@ -11,10 +11,29 @@ public class StaffData : ScriptableObject
     int totalDaysOff, totalWorkHours; 
     int continuousWorkDays, continuousDayOff; //計算連續上班日與連續休假日 降低或增加排班優先度
     int continuousWorkHours, continuousOffHours; //Counting the contiuous working or resting hours of the staff
+    int priorityScore;
     bool lastDayCloseShift,isManager; //檢查前一天是否為關班 盡量避免關班接早班,確認是否為主管職
     string staffName,staffNumber,staffLevel;
     List<SpecialShiftData> specialShifts; // 
 
+    public int StaffStatus(StaffController.StaffStatus staffStatus)
+    {
+        switch(staffStatus)
+        {
+            case StaffController.StaffStatus.TotalDaysOff: return totalDaysOff;
+            case StaffController.StaffStatus.TotalWorkHours: return totalWorkHours;
+            case StaffController.StaffStatus.ContinuousWorkDays: return continuousWorkDays;
+            case StaffController.StaffStatus.ContinuousDayOff: return continuousDayOff;
+            case StaffController.StaffStatus.ContinuousWorkHours: return continuousWorkHours;
+            case StaffController.StaffStatus.ContinuousOffHours: return continuousOffHours;
+            case StaffController.StaffStatus.PriorityScore: return priorityScore;
+            default: return -1;
+        }
+    }
+    public int PriorityScore
+    {
+        get => priorityScore; set { priorityScore = value; }
+    }
     public int ContinuousWorkHours
     {
         get => continuousWorkHours; set => continuousWorkHours = value;
