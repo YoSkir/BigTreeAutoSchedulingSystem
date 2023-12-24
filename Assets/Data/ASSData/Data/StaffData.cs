@@ -10,10 +10,19 @@ public class StaffData : ScriptableObject
     int colum; //方便此員工位於第幾行
     int totalDaysOff, totalWorkHours; 
     int continuousWorkDays, continuousDayOff; //計算連續上班日與連續休假日 降低或增加排班優先度
+    int continuousWorkHours, continuousOffHours; //Counting the contiuous working or resting hours of the staff
     bool lastDayCloseShift,isManager; //檢查前一天是否為關班 盡量避免關班接早班,確認是否為主管職
     string staffName,staffNumber,staffLevel;
     List<SpecialShiftData> specialShifts; // 
 
+    public int ContinuousWorkHours
+    {
+        get => continuousWorkHours; set => continuousWorkHours = value;
+    }
+    public int ContinuousOffHours
+    {
+        get => continuousOffHours; set => continuousOffHours = value;
+    }
     public bool IsManager
     {
         get => isManager;

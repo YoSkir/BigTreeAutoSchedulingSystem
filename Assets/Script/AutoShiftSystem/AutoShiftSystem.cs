@@ -54,23 +54,31 @@ public class AutoShiftSystem : MonoBehaviour
     }
     private ShiftData OneDayScheduling(ShiftData shiftData)
     {
-        for(int time = 0; time < shiftData.WorkHour.Length; time++)
+        for(int time = 0; time < shiftData.WorkHour.Length; time++) //Scheduling 0.5 hour by 0.5 hour
         {
             int staffsOnWork = CurrentStaffsOnWork(shiftData.WorkHour[time]);
-            while (staffsOnWork < shiftData.WorkHour[time].Length)
+            while (!ManagerOnWork(shiftData.WorkHour[time]) ||staffsOnWork < shiftData.WorkHour[time].Length)//Check if the staffs amount on shift match the request.
             {
                 if (!ManagerOnWork(shiftData.WorkHour[time]))
                 {
-
+                    shiftData.WorkHour[time][]
                 }
             }
         }
         return shiftData;
     }
-    private StaffData FirstPriorityStaff(StaffData[] staffDatas,bool pickManager)
-    {
+    //每半小時檢查 :這時間沒有主管
+    //true: 如果需求人員已滿= 讓最高優先下班者下班(需另做下班判斷) : addFirstPrio(主管)
+    //false:如果需求人員已滿= null : addFirstPrio(一般) 
+    private StaffData AddFirstPriorityStaff(StaffData[] staffDatas,bool pickManager)
+    {       
         return staffDatas[0];
     }
+    private StaffData[] SetExtraStaffOffShift(StaffData[] currentTimeStaffs)
+    {
+
+    }
+    //比較當前上班中員工
     private int CurrentStaffsOnWork(StaffData[] workingStaffs)
     {
         int staffCount=0;

@@ -21,7 +21,7 @@ public class StaffController : MonoBehaviour
     public StaffData[] SetStaffList(string[] nameList, string[] numberList, string[] levelList)
     {
         StaffData[] staffDatas = new StaffData[nameList.Length];
-        for(int i = 0; i < staffDatas.Length; i++)
+        for(int i = 0; i < staffDatas.Length; i++) //i=colum of staff in store staffs
         {
             staffDatas[i] = SetStaffInfo(nameList[i], numberList[i], levelList[i]);
             staffDatas[i].Colum = i;
@@ -30,6 +30,8 @@ public class StaffController : MonoBehaviour
             staffDatas[i].LastDayCloseShift = false;
             staffDatas[i].TotalDaysOff = 0;
             staffDatas[i].TotalWorkHours = 0;
+            staffDatas[i].ContinuousWorkHours = 0;
+            staffDatas[i].ContinuousOffHours = 0;
         }
         return staffDatas;
     }
