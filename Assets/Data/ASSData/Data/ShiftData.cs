@@ -10,8 +10,10 @@ public class ShiftData: ScriptableObject
     private string calender = "";
     private ShiftTimeData[] shiftTimes; //每格代表每個員工今天的班表
     private StaffData[][] workHour;  //[工作小時][上班者]
-    private int line;
+    private int line; //the even line changes color for easier reading
+    private List<StaffData> availibleStaff;
 
+    public List<StaffData> AvailibleStaff { get=>availibleStaff; set => availibleStaff = value; }
     public StaffData[][] WorkHour
     {
         get => workHour;

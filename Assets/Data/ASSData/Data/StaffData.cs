@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class StaffData : ScriptableObject
 {    
+    //all one hour down here =2 in code.
     List<Date> daysOff;
     int colum; //方便此員工位於第幾行
     int totalDaysOff, totalWorkHours; 

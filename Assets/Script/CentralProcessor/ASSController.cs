@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ASSController : MonoBehaviour
 {    
-    //在主邏輯確保排班時間
+    //在主邏輯確保排班時間    
     public void SetMonthlyShiftDate(Date startDate,Date endDate)
     {
         CentralProcessor.ASSData.ShiftDuration = setShiftDuration(startDate, endDate);
@@ -17,6 +17,7 @@ public class ASSController : MonoBehaviour
             shiftData.Date = rangeDates[i];
             shiftData.Line = i;
             shiftData.ShiftTimes = SetShiftTimeData(CentralProcessor.ASSData.StoreStaffData.Length);
+            shiftData.AvailibleStaff = GetStaffsAvailibleForWork(CentralProcessor.ASSData.StoreStaffData, rangeDates[i]);
             tempMonthlyShift.Add(shiftData);
         }
         CentralProcessor.ASSData.MonthlyShiftData = tempMonthlyShift;
@@ -36,21 +37,44 @@ public class ASSController : MonoBehaviour
         }
         return shiftTimeDatas;
     }
-    public StaffData[] GetStaffPriorityRate(StaffData[] storeStaffs)
+    public StaffData[] GetStaffPriorityRate(StaffData[] storeStaffs) //priority score : no.1 +1, no.6 +6
     {
-        foreach(int statusIndex in Enum.GetValues(typeof(StaffController.StaffStatus)))
+        for (int colum = 0; colum < storeStaffs.Length; colum++) //Set priority score to 0.
         {
-            storeStaffs=GetStatusRate((StaffController.StaffStatus)statusIndex, storeStaffs);
-            for(int i = 0;i < storeStaffs.Length; i++)
+            storeStaffs[colum].PriorityScore = 0;
+        }
+        foreach (int statusIndex in Enum.GetValues(typeof(StaffController.StaffStatus)))
+        {
+            StaffController.StaffStatus status = (StaffController.StaffStatus)statusIndex;
+            storeStaffs = GetStatusRate(status, storeStaffs);
+            switch (status)
             {
-                storeStaffs[i].PriorityScore += i + 1; //記得歸零 與 判斷倒敘
+                case StaffController.StaffStatus.ContinuousDayOff:
+                case StaffController.StaffStatus.TotalDaysOff:
+                case StaffController.StaffStatus.ContinuousOffHours://High priority: High value
+                    for (int i = 0; i < storeStaffs.Length; i++)
+                    {
+                        storeStaffs[i].PriorityScore += storeStaffs.Length-i;
+                    }
+                    break;
+                case StaffController.StaffStatus.ContinuousWorkDays:
+                case StaffController.StaffStatus.TotalWorkHours:
+                case StaffController.StaffStatus.ContinuousWorkHours://High priority: Low value
+                    for (int i = 0; i < storeStaffs.Length; i++)
+                    {
+                        storeStaffs[i].PriorityScore += i + 1;
+                    }
+                    break;
+                case StaffController.StaffStatus.PriorityScore:break;
+                default:break;
             }
         }
-        
-        
+        return storeStaffs;
     }
     //必須判斷是否有同數值
-    public StaffData[] GetStatusRate(StaffController.StaffStatus status, StaffData[] storeStaffs)
+    //high priority: h          l                h            l                l                    h
+    //ContinuousDayOff, ContinuousWorkDays,TotalDaysOff,TotalWorkHours,ContinuousWorkHours,ContinuousOffHours,priorityscore
+    private StaffData[] GetStatusRate(StaffController.StaffStatus status, StaffData[] storeStaffs) //low => high
     {
         for(int i=1;i<storeStaffs.Length; i++)
         {
@@ -66,5 +90,28 @@ public class ASSController : MonoBehaviour
             }
         }
         return storeStaffs;
+    }
+    private List<StaffData> GetStaffsAvailibleForWork(StaffData[] storeStaffs, Date date)
+    {
+        List<StaffData> staffsAvailible = new List<StaffData>();
+        foreach (StaffData staff in storeStaffs)
+        {
+            if (!CheckStaffDayOff(staff, date))
+            {
+                staffsAvailible.Add(staff);
+            }
+        }
+        return staffsAvailible;
+    }
+    private bool CheckStaffDayOff(StaffData staff, Date date)
+    {
+        foreach (Date dayOff in staff.DaysOff)
+        {
+            if (dayOff.DateString.Equals(date.DateString))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

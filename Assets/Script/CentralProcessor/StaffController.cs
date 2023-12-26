@@ -35,7 +35,7 @@ public class StaffController : MonoBehaviour
         }
         return staffDatas;
     }
-    public enum StaffStatus { ContinuousDayOff, ContinuousWorkDays,TotalDaysOff,TotalWorkHours,ContinuousWorkHours,ContinuousOffHours,PriorityScore}
+    public enum StaffStatus { ContinuousDayOff, ContinuousWorkDays,TotalDaysOff,TotalWorkHours, ContinuousOffHours, ContinuousWorkHours,PriorityScore}
     
 }
 
