@@ -37,7 +37,7 @@ public class SystemSetup : MonoBehaviour
         CentralProcessor.Instance.ShiftController.SetShiftTime(18, 44);
         CentralProcessor.Instance.TimeShow(18);
         CentralProcessor.Instance.TimeShow(44);
-        int[] staffCount = { 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 2, 2 };
+        int[] staffCount = { 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 2, 2 };
         CentralProcessor.Instance.ShiftController.SetShiftStaffCount(staffCount);
         CentralProcessor.Instance.ShiftController.SetShiftStaffCount(ShiftController.WeekDay.六, 40,43, 3);
         CentralProcessor.Instance.ShiftController.SetShiftStaffCount(ShiftController.WeekDay.日, 40,43, 3);

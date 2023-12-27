@@ -49,17 +49,17 @@ public class ASSController : MonoBehaviour
             storeStaffs = GetStatusRate(status, storeStaffs);
             switch (status)
             {
-                case StaffController.StaffStatus.ContinuousDayOff:
+                //case StaffController.StaffStatus.ContinuousDayOff:
                 case StaffController.StaffStatus.TotalDaysOff:
-                case StaffController.StaffStatus.ContinuousOffHours://High priority: High value
+                //case StaffController.StaffStatus.ContinuousOffHours://High priority: High value
                     for (int i = 0; i < storeStaffs.Length; i++)
                     {
                         storeStaffs[i].PriorityScore += storeStaffs.Length-i;
                     }
                     break;
-                case StaffController.StaffStatus.ContinuousWorkDays:
+                //case StaffController.StaffStatus.ContinuousWorkDays:
                 case StaffController.StaffStatus.TotalWorkHours:
-                case StaffController.StaffStatus.ContinuousWorkHours://High priority: Low value
+                //case StaffController.StaffStatus.ContinuousWorkHours://High priority: Low value
                     for (int i = 0; i < storeStaffs.Length; i++)
                     {
                         storeStaffs[i].PriorityScore += i + 1;

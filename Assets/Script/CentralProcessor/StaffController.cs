@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StaffController : MonoBehaviour
@@ -35,7 +36,26 @@ public class StaffController : MonoBehaviour
         }
         return staffDatas;
     }
-    public enum StaffStatus { ContinuousDayOff, ContinuousWorkDays,TotalDaysOff,TotalWorkHours, ContinuousOffHours, ContinuousWorkHours,PriorityScore}
-    
+    public void CountTotalWorkHours()
+    {
+        ASSData aSSData = CentralProcessor.ASSData;
+        foreach(StaffData staff in aSSData.StoreStaffData)
+        {
+            staff.TotalWorkHours = 0;
+        }
+        foreach (ShiftData shift in aSSData.MonthlyShiftData)
+        {
+            foreach (StaffData[] hour in shift.WorkHour)
+            {
+                foreach(StaffData staff in hour)
+                {
+                    staff.TotalWorkHours++;
+                }
+            }
+        }
+    }
+    public enum StaffStatus { TotalDaysOff,TotalWorkHours,PriorityScore}
+    //ContinuousDayOff, ContinuousWorkDays, ContinuousOffHours, ContinuousWorkHours,
+
 }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName ="StaffData_",menuName ="StaffData")]
@@ -23,10 +24,10 @@ public class StaffData : ScriptableObject
         {
             case StaffController.StaffStatus.TotalDaysOff: return totalDaysOff;
             case StaffController.StaffStatus.TotalWorkHours: return totalWorkHours;
-            case StaffController.StaffStatus.ContinuousWorkDays: return continuousWorkDays;
-            case StaffController.StaffStatus.ContinuousDayOff: return continuousDayOff;
-            case StaffController.StaffStatus.ContinuousWorkHours: return continuousWorkHours;
-            case StaffController.StaffStatus.ContinuousOffHours: return continuousOffHours;
+            //case StaffController.StaffStatus.ContinuousWorkDays: return continuousWorkDays;
+            //case StaffController.StaffStatus.ContinuousDayOff: return continuousDayOff;
+            //case StaffController.StaffStatus.ContinuousWorkHours: return continuousWorkHours;
+            //case StaffController.StaffStatus.ContinuousOffHours: return continuousOffHours;
             case StaffController.StaffStatus.PriorityScore: return priorityScore;
             default: return -1;
         }
@@ -67,14 +68,7 @@ public class StaffData : ScriptableObject
             totalDaysOff = value;
         }
     }
-    public int TotalWorkHours
-    {
-        get => totalWorkHours;
-        set
-        {
-            totalWorkHours = value;
-        }
-    }
+    public int TotalWorkHours { get=>totalWorkHours; set => totalWorkHours = value; }
     public int ContinuousWorkDays
     {
         get => continuousWorkDays;
