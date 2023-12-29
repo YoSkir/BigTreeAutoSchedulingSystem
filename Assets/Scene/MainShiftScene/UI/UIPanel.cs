@@ -33,14 +33,20 @@ public class UIPanel : VisualElement
         templateContainer.Q<Label>(name: "StaffLevelLabel").text = staffData.StaffLevel;
         templateContainer.Q<Label>(name: "StaffNumberLabel").text = staffData.StaffNumber;
     }
-    public UIPanel(ShiftTimeData shiftTimeData) : this()
+    public UIPanel(ShiftTimeData shiftTimeData) : this() //使用shifttimedata新增班表 取代後刪除
     {
         templateContainer = Resources.Load<VisualTreeAsset>(path: "ShiftContainer").Instantiate();
         hierarchy.Add(templateContainer);
         userData = shiftTimeData;
         templateContainer.Q<Label>(name: "ShiftLabel").text = shiftTimeData.ShiftTimeText;
     }
-    public UIPanel(int line) : this()
+    public UIPanel(string shiftText) : this()
+    {
+        templateContainer = Resources.Load<VisualTreeAsset>(path: "ShiftContainer").Instantiate();
+        hierarchy.Add(templateContainer);
+        templateContainer.Q<Label>(name: "ShiftLabel").text = shiftText;
+    }
+    public UIPanel(int line) : this() //更改班表每日顏色以方便閱讀
     {
         templateContainer = Resources.Load<VisualTreeAsset>(path: "ShiftsContainer").Instantiate();
         if (line % 2 == 0)

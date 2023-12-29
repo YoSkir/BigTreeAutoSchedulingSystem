@@ -53,11 +53,6 @@ public class ShiftController : MonoBehaviour
         assData.OpenHour = openHour;
         assData.CloseHour = closeHour;
         assData.TimeDuration = closeHour - openHour;
-        for(int i = 0; i < assData.MonthlyShiftData.Count; i++)
-        {
-            StaffData[][] workHour = new StaffData[assData.TimeDuration][];
-            assData.MonthlyShiftData[i].WorkHour = workHour;
-        }
     }
     public void SetShiftStaffCount(int[] everyHourStaffCount)
     {
@@ -68,12 +63,9 @@ public class ShiftController : MonoBehaviour
         }
         else
         {
-            for(int i = 0; i < assData.MonthlyShiftData.Count; i++)
+            foreach(ShiftData shift in assData.MonthlyShiftData)
             {
-                for(int j = 0; j < assData.MonthlyShiftData[0].WorkHour.Length; j++)
-                {
-                    assData.MonthlyShiftData[i].WorkHour[j] = new StaffData[everyHourStaffCount[j]];
-                }
+                shift.RequireStaffs = everyHourStaffCount;
             }
         }
     }
@@ -91,7 +83,7 @@ public class ShiftController : MonoBehaviour
             {
                 for(int j =  TimeToShiftTimeIndex(startTime); j <= TimeToShiftTimeIndex(endTime); j++)
                 {
-                    assData.MonthlyShiftData[i].WorkHour[j] = new StaffData[staffCount];
+                   assData.MonthlyShiftData[i].RequireStaffs[TimeToShiftTimeIndex(j)]=staffCount;
                 }
             }
         }
@@ -100,5 +92,6 @@ public class ShiftController : MonoBehaviour
     {
         return time - CentralProcessor.ASSData.OpenHour;
     }
+
 }
 

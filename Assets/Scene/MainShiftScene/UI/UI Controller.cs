@@ -48,11 +48,37 @@ public class UIController : MonoBehaviour
         for(int i = 0; i < assData.ShiftDuration; i++)
         {
             shiftContainer = rootVisualElement.Query("ShiftsContainer").AtIndex(i);
+            shiftContainer.Clear();
             for (int j = 0; j < assData.StoreStaffData.Length; j++)
             {
-                shiftContainer.Add(new UIPanel(assData.MonthlyShiftData[i].ShiftTimes[j]));
+                //shiftContainer.Add(new UIPanel(assData.MonthlyShiftData[i].ShiftTimes[j]));//待刪
+                shiftContainer.Add(new UIPanel(GetShiftText(assData.StoreStaffData[j], assData.MonthlyShiftData[i])));
             }
         }
 
     }
+
+    private string GetShiftText(StaffData staff,ShiftData shift)
+    {
+        ASSController assController = CentralProcessor.Instance.ASSController;
+        string shiftText= string.Empty;
+        if (assController.CheckStaffDayOff(staff, shift.Date))
+        {
+            shiftText = "指休";
+        }
+        else if (assController.CheckShiftError(staff,shift))
+        {
+            shiftText = "異常";
+        }
+        else if (assController.GetTodayWorkHours(staff,shift)>0)
+        {
+            shiftText = assController.GetShiftText(staff, shift);
+        }
+        else
+        {
+            shiftText = "空";
+        }
+        return shiftText;
+    }
+
 }

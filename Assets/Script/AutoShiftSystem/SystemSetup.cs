@@ -12,16 +12,18 @@ public class SystemSetup : MonoBehaviour
     public void testSetup()
     {
         //第一次開啟，設定員工
-        staffName = new string[] { "吳玟頤", "阿蛙", "被被", "伍佑群", "臭臭" };
-        a = new string[] { "12311", "41156", "78229", "11321", "22212" };
-        b = new string[] { "店長", "店員", "藥師", "店員", "店員" };
+        staffName = new string[] { "吳玟頤", "阿蛙", "被被", "伍佑群", "臭臭","雞雞" };
+        a = new string[] { "12311", "41156", "78229", "11321", "22212","12345" };
+        b = new string[] { "店長", "店員", "藥師", "店員", "店員" ,"店員"};
         SetStaff();
+        //設定店營業時間
+        CentralProcessor.Instance.ShiftController.SetShiftTime(18, 44);
         //設定日期
         date = new int[] { 2023, 10, 29, 2023, 11, 25 };
         SetDate(date);
         //設定指休
-        RandomDaysOff(5);
-        foreach(StaffData s in CentralProcessor.ASSData.StoreStaffData)
+        RandomDaysOff(3);
+        foreach (StaffData s in CentralProcessor.ASSData.StoreStaffData)
         {
             Debug.Log(s.StaffName + "休假日："+s.DaysOff.Count+"天");
             string dd="";
@@ -33,8 +35,7 @@ public class SystemSetup : MonoBehaviour
         }
         CentralProcessor.ASSData.FirstOpen = false;
         CentralProcessor.Instance.ShiftController.SetDaysOff();
-        //設定店營業時間
-        CentralProcessor.Instance.ShiftController.SetShiftTime(18, 44);
+
         CentralProcessor.Instance.TimeShow(18);
         CentralProcessor.Instance.TimeShow(44);
         int[] staffCount = { 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 2, 2 };

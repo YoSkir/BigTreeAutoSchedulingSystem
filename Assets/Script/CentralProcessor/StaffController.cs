@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class StaffController : MonoBehaviour
@@ -45,7 +46,7 @@ public class StaffController : MonoBehaviour
         }
         foreach (ShiftData shift in aSSData.MonthlyShiftData)
         {
-            foreach (StaffData[] hour in shift.WorkHour)
+            foreach (List<StaffData> hour in shift.WorkHour)
             {
                 foreach(StaffData staff in hour)
                 {
@@ -53,6 +54,37 @@ public class StaffController : MonoBehaviour
                 }
             }
         }
+    }
+    public void CountTotalDayOff()
+    {
+        //currently i still count non-scheduled day as day off
+        ASSData aSSData = CentralProcessor.ASSData;
+        foreach (StaffData staff in aSSData.StoreStaffData)
+        {
+            staff.TotalDaysOff = 0;
+        }
+        foreach (ShiftData shift in aSSData.MonthlyShiftData)
+        {
+            foreach (StaffData staff in aSSData.StoreStaffData)
+            {
+                if (GetWorkHoursADay(staff, shift) == 0)
+                {
+                    staff.TotalDaysOff++;
+                }
+            }
+        }
+    }
+    private int GetWorkHoursADay(StaffData staff, ShiftData shift)
+    {
+        int workHour = 0;
+        foreach (List<StaffData> workingHour in shift.WorkHour)
+        {
+            if (workingHour.Contains(staff))
+            {
+                workHour++;
+            }
+        }
+        return workHour;
     }
     public enum StaffStatus { TotalDaysOff,TotalWorkHours,PriorityScore}
     //ContinuousDayOff, ContinuousWorkDays, ContinuousOffHours, ContinuousWorkHours,

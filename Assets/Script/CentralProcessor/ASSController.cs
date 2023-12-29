@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ASSController : MonoBehaviour
@@ -16,8 +17,13 @@ public class ASSController : MonoBehaviour
             ShiftData shiftData = ScriptableObject.CreateInstance<ShiftData>();
             shiftData.Date = rangeDates[i];
             shiftData.Line = i;
-            shiftData.ShiftTimes = SetShiftTimeData(CentralProcessor.ASSData.StoreStaffData.Length);
-            shiftData.AvailibleStaff = GetStaffsAvailibleForWork(CentralProcessor.ASSData.StoreStaffData, rangeDates[i]);
+            shiftData.WorkHour = new List<StaffData>[CentralProcessor.ASSData.TimeDuration];
+            for(int time=0;time<shiftData.WorkHour.Length;time++)
+            {
+                shiftData.WorkHour[time] = new List<StaffData>();
+            }
+            shiftData.ShiftTimes = SetShiftTimeData(CentralProcessor.ASSData.StoreStaffData.Length); //待刪
+            //shiftData.AvailibleStaff = GetStaffsAvailibleForWork(CentralProcessor.ASSData.StoreStaffData, rangeDates[i]);
             tempMonthlyShift.Add(shiftData);
         }
         CentralProcessor.ASSData.MonthlyShiftData = tempMonthlyShift;
@@ -27,7 +33,7 @@ public class ASSController : MonoBehaviour
         return CentralProcessor.Instance.DateController.GetDaysCount(startDate, endDate);
     }
 
-    private ShiftTimeData[] SetShiftTimeData(int StaffCounts)
+    private ShiftTimeData[] SetShiftTimeData(int StaffCounts) //待刪
     {
         ShiftTimeData[] shiftTimeDatas = new ShiftTimeData[StaffCounts];
         for(int i = 0; i < StaffCounts; i++)
@@ -91,7 +97,7 @@ public class ASSController : MonoBehaviour
         }
         return storeStaffs;
     }
-    private List<StaffData> GetStaffsAvailibleForWork(StaffData[] storeStaffs, Date date)
+    public List<StaffData> GetStaffsAvailibleForWork(StaffData[] storeStaffs, Date date)
     {
         List<StaffData> staffsAvailible = new List<StaffData>();
         foreach (StaffData staff in storeStaffs)
@@ -103,7 +109,7 @@ public class ASSController : MonoBehaviour
         }
         return staffsAvailible;
     }
-    private bool CheckStaffDayOff(StaffData staff, Date date)
+    public bool CheckStaffDayOff(StaffData staff, Date date)
     {
         foreach (Date dayOff in staff.DaysOff)
         {
@@ -113,5 +119,88 @@ public class ASSController : MonoBehaviour
             }
         }
         return false;
+    }
+    public int GetTodayWorkHours(StaffData staff, ShiftData shift)
+    {
+        int todayWorkHours = 0;
+        foreach (List<StaffData> staffOnWork in shift.WorkHour)
+        {
+            todayWorkHours += staffOnWork.Contains(staff) ? 1 : 0;
+        }
+        return todayWorkHours;
+    }
+    public bool CheckShiftError(StaffData staff,ShiftData shift)//時數1~13 分段時數 
+    {
+        if(GetTodayWorkHours(staff, shift) >0 && GetTodayWorkHours(staff, shift) < 13)
+        {
+            Debug.Log("檢測到錯誤時數");
+            return true;
+        }
+        else if (CheckSeperateShift(staff,shift))
+        {
+            Debug.Log("檢測到分離班表");
+            return true;
+        }
+        else { return false; }
+    }
+    private bool CheckSeperateShift(StaffData staff,ShiftData shift)
+    {
+        bool firstShiftStart=false,firstShiftEnd = false;
+        foreach(List<StaffData> hour in shift.WorkHour)
+        {
+            if(hour.Contains(staff))
+            {
+                if (firstShiftEnd)
+                {
+                    return true;
+                }
+                else
+                {
+                    if(!firstShiftStart)
+                    {
+                        firstShiftStart = true; 
+                    }
+                }
+            }
+            else
+            {
+                if (firstShiftStart)
+                {
+                    firstShiftEnd = true;
+                }
+            }
+        }
+        return false;
+    }
+
+    internal string GetShiftText(StaffData staff, ShiftData shift)
+    {
+        string shiftText = "";
+        int shiftLength=GetTodayWorkHours(staff,shift);
+        string breakText = shiftLength > 19 ? "休1" : "休0.5";
+        for(int time =0;time<shift.WorkHour.Count();time++)
+        {
+            if (shift.WorkHour[time].Contains(staff))
+            {             
+                shiftText += GetTimeText(time)+"-"+GetTimeText(time+shiftLength)+breakText;
+                break;
+            }
+        }
+        return shiftText;
+    }
+    private string GetTimeText(int timeIndex)
+    {
+        string timeText = "";
+        int storeOpenTime = CentralProcessor.ASSData.OpenHour;
+        timeText = ((storeOpenTime + timeIndex) / 2).ToString();
+        if ((storeOpenTime + timeIndex) % 2 > 0)
+        {
+            timeText += "30";
+        }
+        else
+        {
+            timeText += "00";
+        }
+        return timeText;
     }
 }
