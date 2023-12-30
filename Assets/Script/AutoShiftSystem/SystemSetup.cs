@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
-
+using System;
 public class SystemSetup : MonoBehaviour
 {
     //暫時設定區
@@ -22,7 +22,7 @@ public class SystemSetup : MonoBehaviour
         date = new int[] { 2023, 10, 29, 2023, 11, 25 };
         SetDate(date);
         //設定指休
-        RandomDaysOff(3);
+        RandomDaysOff(0);//
         foreach (StaffData s in CentralProcessor.ASSData.StoreStaffData)
         {
             Debug.Log(s.StaffName + "休假日："+s.DaysOff.Count+"天");
@@ -34,7 +34,6 @@ public class SystemSetup : MonoBehaviour
             Debug.Log(dd);
         }
         CentralProcessor.ASSData.FirstOpen = false;
-        CentralProcessor.Instance.ShiftController.SetDaysOff();
 
         CentralProcessor.Instance.TimeShow(18);
         CentralProcessor.Instance.TimeShow(44);
@@ -63,21 +62,22 @@ public class SystemSetup : MonoBehaviour
     private Date RandomDate(Date startDate,Date endDate)  ///for test only
     {
         DateController dateController = CentralProcessor.Instance.DateController;
-        int year = (int)Random.Range(startDate.Year, endDate.Year+1);
-        int month = (int)Random.Range(startDate.Month, endDate.Month+1);
+        UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
+        int year = (int)UnityEngine.Random.Range(startDate.Year, endDate.Year+1);
+        int month = (int)UnityEngine.Random.Range(startDate.Month, endDate.Month+1);
         int day;
         if (month == startDate.Month)
         {
-            day = Random.Range(startDate.Day, startDate.LastDate+1);
+            day = UnityEngine.Random.Range(startDate.Day, startDate.LastDate+1);
         }
         else if(month==endDate.Month)
         {
-            day= Random.Range(1, endDate.Day + 1);
+            day= UnityEngine.Random.Range(1, endDate.Day + 1);
         }
         else
         {
             int tempLastDate = dateController.DaysOfMonth(year, month)+1;
-            day = Random.Range(1, tempLastDate);
+            day = UnityEngine.Random.Range(1, tempLastDate);
         }
         Date tempDate = ScriptableObject.CreateInstance<Date>();
         tempDate = dateController.SetDate(year, month, day);

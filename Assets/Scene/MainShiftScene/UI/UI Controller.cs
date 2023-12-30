@@ -74,6 +74,10 @@ public class UIController : MonoBehaviour
         {
             shiftText = assController.GetShiftText(staff, shift);
         }
+        else if (assController.GetTodayWorkHours(staff,shift)==0)
+        {
+            shiftText = "排休";
+        }
         else
         {
             shiftText = "空";

@@ -84,15 +84,29 @@ public class AutoShiftSystem : MonoBehaviour
             CentralProcessor.Instance.StaffController.CountTotalDayOff();
         }
     }
-    private void OneDayScheduling(ShiftData shiftData) //undone3
+
+    private void testPrintAvailibleStaff(ShiftData shift)
+    {
+        CentralProcessor.Instance.StaffController.CountTotalWorkHours();
+        string level="";
+        foreach (StaffData staff in shift.AvailibleStaff)
+        {
+            level = staff.IsManager ? "主管" : "員工";
+            Debug.Log(level+"名:" + staff.StaffName + "總時數:"+staff.TotalWorkHours);
+        }
+    }
+    private void OneDayScheduling(ShiftData shiftData)
     {
         //先只用TOTAL作為判斷依據
         bool noManagerAvailible = false;
         shiftData.AvailibleStaff = CentralProcessor.Instance.ASSController.GetStaffsAvailibleForWork(assData.StoreStaffData, shiftData.Date);
-        for (int time = 0; time < shiftData.WorkHour.Length; time++) //change to 9 11 13.5 15.5
-            //8點檢查時，如未上班者優先度大於上班者，則回頭讓上班者於15.5下班，排入未上班者，反之延長最高優先者班表
+        for (int time = 0; time < shiftData.WorkHour.Length; time++)
         {
-            Debug.Log("時間段"+time);
+            //
+            string pp= (assData.OpenHour + time) % 2 > 0?"半":"";
+            Debug.Log("時間: "+(assData.OpenHour+time)/2+"點"+ pp);
+            testPrintAvailibleStaff(shiftData); 
+            //
             int requireStaffsCounts = shiftData.RequireStaffs[time];
             int staffsOnWork = CurrentStaffsOnWork(shiftData.WorkHour[time]);
             StaffData staff;
@@ -100,6 +114,7 @@ public class AutoShiftSystem : MonoBehaviour
             {
                 if (!ManagerOnWork(shiftData.WorkHour[time])&&!noManagerAvailible)//當目前沒有主管或無可上班主管
                 {
+                    Debug.Log("目前需要主管");
                     if (staffsOnWork < requireStaffsCounts)//當上班人數小於需求人數
                     {
                         staff = GetFirstPriorityStaff(shiftData,time, true); 
@@ -149,6 +164,7 @@ public class AutoShiftSystem : MonoBehaviour
                 }
                 else//有主管或無可上班主管
                 {
+                    Debug.Log("目前需要員工");
                     if (staffsOnWork < requireStaffsCounts)
                     {
                         staff = GetFirstPriorityStaff(shiftData, time, false);
@@ -173,13 +189,6 @@ public class AutoShiftSystem : MonoBehaviour
         }
         //last day off shift set        
     }
-    //每半小時檢查 :這時間沒有主管
-    //true: 如果需求人員已滿= 讓最高優先下班者下班(需另做下班判斷) : addFirstPrio(主管)
-    //    如無主管可上班:後段班表增加一名需求員工
-    //等等問:指定早或晚班時只會6.5HR 極端情況下有可能放假
-    //false:如果需求人員已滿= null : addFirstPrio() 
-    //                                  如最高優先已在上班:延長班表
-    //                                  如雙主管:盡可能避開
     private void CountStaffStatus(ShiftData shift)///
     {
         //ContinuousDayOff, ContinuousWorkDays,TotalDaysOff,TotalWorkHours, ContinuousOffHours, ContinuousWorkHours
@@ -213,6 +222,9 @@ public class AutoShiftSystem : MonoBehaviour
             case 17:shiftTime = 5;break;
             default:shiftTime = 0;break;
         }
+        //
+        Debug.Log("增加員工:" + staff.StaffName+" "+shiftTime+"時間");
+        //
         for (int i = 0; i < shiftTime; i++)
         {
             shift.WorkHour[startTimeIndex+i].Add(staff);
@@ -248,25 +260,44 @@ public class AutoShiftSystem : MonoBehaviour
     }
     private StaffData GetFirstPriorityStaff(ShiftData shift ,int timeIndex,bool pickManager) 
     {
+        //需要 連上過多天強制排除
         ASSController aSSController = CentralProcessor.Instance.ASSController;
         shift.AvailibleStaff = aSSController.GetStaffPriorityRate(shift.AvailibleStaff.ToArray()).ToList();
         foreach(StaffData staff in shift.AvailibleStaff)
         {
-            if (aSSController.GetTodayWorkHours(staff,shift)>0 && GetContinuousWorkHours(staff,shift,timeIndex)>0)
+            Debug.Log(staff.StaffName + "判斷中");
+            if (!shift.WorkHour[timeIndex].Contains(staff))
+            {
+                if (aSSController.GetTodayWorkHours(staff, shift) > 0 && GetContinuousWorkHours(staff, shift, timeIndex) == 0)
                 //今日有時數但上一時間沒上班代表已下班，不作為優先排入者
                 //(未來可能將上班名單改成list，就算遇到已下班者為最高優先也可以往前拉長他的班表，避免無人可排入
-            {
-                shift.AvailibleStaff.Remove(staff);
-            }
-            else
-            {
-                if (pickManager)
                 {
-                    if (staff.IsManager) return staff;
+                    Debug.Log("此員工已下班!");
+                }
+                else if(timeIndex>13)//三點半後不新增未上班員工，只延長班表
+                {
+                    if(GetContinuousWorkHours(staff, shift, timeIndex) > 0)
+                    {
+                        if (pickManager)
+                        {
+                            if (staff.IsManager) { Debug.Log("主管已選!"); return staff; }
+                        }
+                        else
+                        {
+                            if (!staff.IsManager) { Debug.Log("已選!"); return staff; }
+                        }
+                    }
                 }
                 else
                 {
-                    if (!staff.IsManager) return staff;
+                    if (pickManager)
+                    {
+                        if (staff.IsManager) { Debug.Log("主管已選!"); return staff; }
+                    }
+                    else
+                    {
+                        if (!staff.IsManager) { Debug.Log("已選!"); return staff; }
+                    }
                 }
             }
         }

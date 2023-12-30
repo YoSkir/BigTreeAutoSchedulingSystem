@@ -22,7 +22,6 @@ public class ASSController : MonoBehaviour
             {
                 shiftData.WorkHour[time] = new List<StaffData>();
             }
-            shiftData.ShiftTimes = SetShiftTimeData(CentralProcessor.ASSData.StoreStaffData.Length); //待刪
             //shiftData.AvailibleStaff = GetStaffsAvailibleForWork(CentralProcessor.ASSData.StoreStaffData, rangeDates[i]);
             tempMonthlyShift.Add(shiftData);
         }
@@ -31,17 +30,6 @@ public class ASSController : MonoBehaviour
     private int setShiftDuration(Date startDate,Date endDate)
     {
         return CentralProcessor.Instance.DateController.GetDaysCount(startDate, endDate);
-    }
-
-    private ShiftTimeData[] SetShiftTimeData(int StaffCounts) //待刪
-    {
-        ShiftTimeData[] shiftTimeDatas = new ShiftTimeData[StaffCounts];
-        for(int i = 0; i < StaffCounts; i++)
-        {
-            ShiftTimeData shiftTimeData = ScriptableObject.CreateInstance<ShiftTimeData>();
-            shiftTimeDatas[i] = shiftTimeData;
-        }
-        return shiftTimeDatas;
     }
     public StaffData[] GetStaffPriorityRate(StaffData[] storeStaffs) //priority score : no.1 +1, no.6 +6
     {
