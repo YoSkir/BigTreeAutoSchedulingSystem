@@ -22,7 +22,8 @@ public class ASSController : MonoBehaviour
             {
                 shiftData.WorkHour[time] = new List<StaffData>();
             }
-            //shiftData.AvailibleStaff = GetStaffsAvailibleForWork(CentralProcessor.ASSData.StoreStaffData, rangeDates[i]);
+            shiftData.AvailibleStaff = new List<StaffData>();
+            shiftData.SecondAvailibleStaff = new List<StaffData>();
             tempMonthlyShift.Add(shiftData);
         }
         CentralProcessor.ASSData.MonthlyShiftData = tempMonthlyShift;
@@ -84,18 +85,6 @@ public class ASSController : MonoBehaviour
             }
         }
         return storeStaffs;
-    }
-    public List<StaffData> GetStaffsAvailibleForWork(StaffData[] storeStaffs, Date date)
-    {
-        List<StaffData> staffsAvailible = new List<StaffData>();
-        foreach (StaffData staff in storeStaffs)
-        {
-            if (!CheckStaffDayOff(staff, date))
-            {
-                staffsAvailible.Add(staff);
-            }
-        }
-        return staffsAvailible;
     }
     public bool CheckStaffDayOff(StaffData staff, Date date)
     {

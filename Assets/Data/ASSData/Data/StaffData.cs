@@ -16,7 +16,6 @@ public class StaffData : ScriptableObject
     int priorityScore;
     bool lastDayCloseShift,isManager; //檢查前一天是否為關班 盡量避免關班接早班,確認是否為主管職
     string staffName,staffNumber,staffLevel;
-    List<SpecialShiftData> specialShifts; // 
 
     public int StaffStatus(StaffController.StaffStatus staffStatus)
     {

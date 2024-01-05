@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ShiftController : MonoBehaviour
 {
@@ -49,6 +50,58 @@ public class ShiftController : MonoBehaviour
     {
         return time - CentralProcessor.ASSData.OpenHour;
     }
-
+    /// <summary>
+    /// 設定第一優先表、第二優先表、與整個月關班bool
+    /// </summary>
+    /// <param name="shiftData"></param>
+    public void SetShiftAvailibleStaff(ShiftData shiftData)
+    {
+        SetAvailibleStaff(shiftData);
+        SetSecondAvailibleStaff(shiftData);
+        SetLastDayCloseShift();
+    }
+    /// <summary>
+    /// 為整個月班表設定staffdata的lastDayCloseShift,未來新增班表第一天的設定
+    /// </summary>
+    /// <param name="shiftData"></param>
+    private void SetLastDayCloseShift()
+    {
+        ASSData aSSData = CentralProcessor.ASSData;
+        int lastHourIndex = aSSData.TimeDuration;
+        for(int dayIndex = 1;dayIndex<aSSData.MonthlyShiftData.Count;dayIndex++) 
+        {
+            foreach(StaffData staff in aSSData.MonthlyShiftData[dayIndex].AvailibleStaff)
+            {
+                if (aSSData.MonthlyShiftData[dayIndex - 1].WorkHour[lastHourIndex].Contains(staff))
+                {
+                    staff.LastDayCloseShift = true;
+                    Debug.Log("員工 " + staff.StaffName +" " + aSSData.MonthlyShiftData[dayIndex-1].Date.DateString +"關班");
+                }
+            }
+        }
+    }
+    private void SetSecondAvailibleStaff(ShiftData shiftData)
+    {
+        StaffController staffController = CentralProcessor.Instance.StaffController;
+        foreach(StaffData staff in shiftData.AvailibleStaff)
+        {
+            if (staffController.GetContinuousWorkDay(staff,shiftData) > 2)
+            {
+                Debug.Log(staff.StaffName + " 連續上班超過3天");
+                shiftData.AvailibleStaff.Remove(staff);
+                shiftData.SecondAvailibleStaff.Add(staff);
+            }
+        }
+    }
+    private void SetAvailibleStaff(ShiftData shiftData)
+    {       
+        foreach (StaffData staff in CentralProcessor.ASSData.StoreStaffData)
+        {
+            if (!CentralProcessor.Instance.ASSController.CheckStaffDayOff(staff,shiftData.Date))
+            {
+                shiftData.AvailibleStaff.Add(staff) ;
+            }
+        }
+    }
 }
 

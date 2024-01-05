@@ -33,13 +33,6 @@ public class UIPanel : VisualElement
         templateContainer.Q<Label>(name: "StaffLevelLabel").text = staffData.StaffLevel;
         templateContainer.Q<Label>(name: "StaffNumberLabel").text = staffData.StaffNumber;
     }
-    public UIPanel(ShiftTimeData shiftTimeData) : this() //使用shifttimedata新增班表 取代後刪除
-    {
-        templateContainer = Resources.Load<VisualTreeAsset>(path: "ShiftContainer").Instantiate();
-        hierarchy.Add(templateContainer);
-        userData = shiftTimeData;
-        templateContainer.Q<Label>(name: "ShiftLabel").text = shiftTimeData.ShiftTimeText;
-    }
     public UIPanel(string shiftText) : this()
     {
         templateContainer = Resources.Load<VisualTreeAsset>(path: "ShiftContainer").Instantiate();

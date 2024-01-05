@@ -2,7 +2,7 @@
     <ui:Template name="StaffContainer" src="project://database/Assets/Data/Resources/StaffContainer.uxml?fileID=9197481963319205126&amp;guid=c355e4b3e7cab4a3e98c635cf109d250&amp;type=3#StaffContainer" />
     <ui:Template name="DateContainer" src="project://database/Assets/Data/Resources/DateContainer.uxml?fileID=9197481963319205126&amp;guid=bd40f222ac54541afaa14bfaaa8812e8&amp;type=3#DateContainer" />
     <ui:Template name="ShiftContainer" src="project://database/Assets/Data/Resources/ShiftContainer.uxml?fileID=9197481963319205126&amp;guid=ea03abfed162d4027b7ccfcb3bfbe580&amp;type=3#ShiftContainer" />
-    <Style src="project://database/Assets/InitialFiles/Label.uss?fileID=7433441132597879392&amp;guid=517d8d0eaa48b4400872e9ddfe7f91b1&amp;type=3#Label" />
+    <Style src="project://database/Assets/Scene/TestMethodScene/InitialFiles/Label.uss?fileID=7433441132597879392&amp;guid=517d8d0eaa48b4400872e9ddfe7f91b1&amp;type=3#Label" />
     <ui:VisualElement name="ShiftUIContainer" style="flex-grow: 1; background-color: rgb(255, 255, 255);">
         <ui:VisualElement name="InformationContainer" style="flex-grow: 0; flex-basis: 3%; background-color: rgb(243, 243, 104); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; flex-direction: row;">
             <ui:VisualElement name="DateContainer" style="flex-grow: 0; flex-basis: 20%;">

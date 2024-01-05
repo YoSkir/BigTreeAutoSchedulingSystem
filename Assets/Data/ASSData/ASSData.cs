@@ -8,12 +8,14 @@ public class ASSData : ScriptableObject
 {
     Date startDate, endDate;
     int openHour, closeHour,timeDuration; //1=0.5hour
-    bool firstOpen=true; //
+    bool firstOpen=true; //第一次開此軟體
+    bool noManagerOK; //需不需要額外人力補主管缺
     List<ShiftData> monthlyShiftData;
     StaffData[] storeStaffData;
     StaffData[] staffPriorityRate;
     int shiftDuration;
 
+    public bool NoManagerOK { get=>noManagerOK; set=>noManagerOK = value; }
     public StaffData[] StaffPriorityRate
     {
         get=>staffPriorityRate; set=>staffPriorityRate = value;

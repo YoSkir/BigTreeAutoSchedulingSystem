@@ -11,8 +11,9 @@ public class ShiftData: ScriptableObject
     private List<StaffData>[] workHour;  //[工作小時][上班者]
     private int[] requireStaffs;
     private int line; //the even line changes color for easier reading
-    private List<StaffData> availibleStaff;
+    private List<StaffData> availibleStaff,secondAvailibleStaff;
 
+    public List<StaffData> SecondAvailibleStaff { get => secondAvailibleStaff; set => secondAvailibleStaff = value; }
     public int[] RequireStaffs { get=>requireStaffs; set => requireStaffs = value; }
     public List<StaffData> AvailibleStaff { get=>availibleStaff; set => availibleStaff = value; }
     public List<StaffData>[] WorkHour

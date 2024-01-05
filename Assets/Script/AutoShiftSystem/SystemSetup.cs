@@ -12,7 +12,7 @@ public class SystemSetup : MonoBehaviour
     public void testSetup()
     {
         //第一次開啟，設定員工
-        staffName = new string[] { "吳玟頤", "阿蛙", "被被", "伍佑群", "臭臭","雞雞" };
+        staffName = new string[] { "吳玟頤", "阿蛙", "被被", "伍佑群", "阿瑞","妮妮" };
         a = new string[] { "12311", "41156", "78229", "11321", "22212","12345" };
         b = new string[] { "店長", "店員", "藥師", "店員", "店員" ,"店員"};
         SetStaff();
@@ -22,7 +22,7 @@ public class SystemSetup : MonoBehaviour
         date = new int[] { 2023, 10, 29, 2023, 11, 25 };
         SetDate(date);
         //設定指休
-        RandomDaysOff(0);//
+        RandomDaysOff(3);//
         foreach (StaffData s in CentralProcessor.ASSData.StoreStaffData)
         {
             Debug.Log(s.StaffName + "休假日："+s.DaysOff.Count+"天");
@@ -34,6 +34,7 @@ public class SystemSetup : MonoBehaviour
             Debug.Log(dd);
         }
         CentralProcessor.ASSData.FirstOpen = false;
+        CentralProcessor.ASSData.NoManagerOK = true;//左營大路不須額外人力補主管缺
 
         CentralProcessor.Instance.TimeShow(18);
         CentralProcessor.Instance.TimeShow(44);
@@ -62,7 +63,6 @@ public class SystemSetup : MonoBehaviour
     private Date RandomDate(Date startDate,Date endDate)  ///for test only
     {
         DateController dateController = CentralProcessor.Instance.DateController;
-        UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
         int year = (int)UnityEngine.Random.Range(startDate.Year, endDate.Year+1);
         int month = (int)UnityEngine.Random.Range(startDate.Month, endDate.Month+1);
         int day;
@@ -85,12 +85,19 @@ public class SystemSetup : MonoBehaviour
     }
     private void RandomDaysOff(int daysCount) ///for test only
     {
+        List<Date> repeatedDate = new List<Date>();
         for(int i =0;i< CentralProcessor.ASSData.StoreStaffData.Length; i++)
         {
             List<Date> daysOffTemp = new List<Date>();
+            Date date;
             for (int j = 0; j < daysCount; j++)
             {
-                daysOffTemp.Add(RandomDate(CentralProcessor.ASSData.StartDate, CentralProcessor.ASSData.EndDate));
+                do
+                {
+                    date = RandomDate(CentralProcessor.ASSData.StartDate, CentralProcessor.ASSData.EndDate);
+                } while (repeatedDate.IndexOf(date) != repeatedDate.LastIndexOf(date));
+                daysOffTemp.Add(date);
+                repeatedDate.Add(date);
             }
             CentralProcessor.ASSData.StoreStaffData[i].DaysOff = daysOffTemp;
         }

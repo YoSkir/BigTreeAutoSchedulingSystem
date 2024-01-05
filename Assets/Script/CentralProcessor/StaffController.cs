@@ -89,5 +89,25 @@ public class StaffController : MonoBehaviour
     public enum StaffStatus { TotalDaysOff,TotalWorkHours,PriorityScore}
     //ContinuousDayOff, ContinuousWorkDays, ContinuousOffHours, ContinuousWorkHours,
 
+    public int GetContinuousWorkDay(StaffData staff,ShiftData shift)
+    {
+        ASSData aSSData=CentralProcessor.ASSData;
+        int workdayCount= 0;
+        int indexOfShift=aSSData.MonthlyShiftData.IndexOf(shift);
+        //未來取得前一個月班表資料
+        while (indexOfShift-workdayCount>0)
+        {
+            if(GetWorkHoursADay(staff, aSSData.MonthlyShiftData[indexOfShift - 1 - workdayCount]) > 0)
+            {
+                workdayCount++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return workdayCount;
+    }
+
 }
 
